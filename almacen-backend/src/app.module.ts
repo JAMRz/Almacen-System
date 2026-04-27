@@ -18,22 +18,31 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true,
     }),
 
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        url: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false },
-        host: config.get<string>('DATABASE_HOST'),
-        port: config.get<number>('DATABASE_PORT'),
-        username: config.get<string>('DATABASE_USER'),
-        password: config.get<string>('DATABASE_PASSWORD'),
-        database: config.get<string>('DATABASE_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: false,
-      }),
-    }),
+   TypeOrmModule.forRootAsync({
+  imports: [ConfigModule],
+  inject: [ConfigService],
+  useFactory: (config: ConfigService) => {
+    const databaseUrl = config.get<string>('DATABASE_URL');
+
+    return {
+      type: 'postgres',
+      ...(databaseUrl
+        ? {
+            url: databaseUrl,
+            ssl: { rejectUnauthorized: false },
+          }
+        : {
+            host: config.get<string>('DATABASE_HOST'),
+            port: Number(config.get<string>('DATABASE_PORT')),
+            username: config.get<string>('DATABASE_USER'),
+            password: config.get<string>('DATABASE_PASSWORD'),
+            database: config.get<string>('DATABASE_NAME'),
+          }),
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: false,
+    };
+  },
+}),
 
     UsuariosModule,
 
