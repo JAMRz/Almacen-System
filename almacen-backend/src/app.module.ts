@@ -39,7 +39,7 @@ import { AuthModule } from './auth/auth.module';
             database: config.get<string>('DATABASE_NAME'),
           }),
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false,
+      synchronize: true,
     };
   },
 }),
