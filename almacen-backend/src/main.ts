@@ -19,11 +19,11 @@ async function bootstrap() {
   const reflector = app.get(Reflector);
   app.useGlobalGuards(new JwtAuthGuard(reflector), new RolesGuard(reflector));
   app.enableCors({
-    origin: 'http://localhost:5173', // "true" permite cualquier host origen de forma dinámica, ideal para entorno local
-
+    origin: true,
     credentials: true,
   });
 
-  await app.listen(3000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port, '0.0.0.0');
 }
 void bootstrap();
