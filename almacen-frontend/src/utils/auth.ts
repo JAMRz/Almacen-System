@@ -1,4 +1,4 @@
-export type RolUsuario = 'SUPERVISOR' | 'OPERADOR' | 'LECTURA';
+export type RolUsuario = "SUPERVISOR" | "OPERADOR" | "LECTURA";
 
 export interface UsuarioSesion {
   id: string;
@@ -13,5 +13,6 @@ export interface LoginBody {
 
 export interface LoginResponse {
   access_token: string;
+  token?: string;
   usuario: UsuarioSesion;
 }
