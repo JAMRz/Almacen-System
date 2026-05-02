@@ -26,3 +26,10 @@ npm run start:dev
 cd almacen-frontend
 npm install
 npm run dev
+
+## Credenciales demo
+
+**Administrador**
+
+- Usuario: `demo`
+- Contraseña: `demo123`
